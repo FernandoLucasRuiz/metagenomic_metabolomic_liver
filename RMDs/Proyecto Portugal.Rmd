@@ -1,0 +1,144 @@
+---
+title: "Microbiota hepática"
+author: "Fernando Lucas Ruiz (fernando.lucas@um.es)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    highlight: kate
+    number_sections: false
+    theme: spacelab
+    toc: true
+    toc_float: true
+    code_folding: "hide"
+  pdf_document:
+    toc: true
+subtitle: Cirugía digestiva, endocrina y trasplante de órganos abdominales (IMIB)
+---
+
+# Punto de partida
+
+Tenemos una reunión el día 23/10/2024 con el hombre para que nos cuente. La idea que tengo es que tiene unas muestras de metagenómica y de metabolomica y queremos analizarlas.
+
+Tenemos el analisis de metabolomica hecho en principio en la tesis de Vizcaino. Según entendí en la reunión fue que teniamos muestras de pacientes con varias enfermedades hepáticas. Se hizo un estudio metabolómico y encontraron que habia metabolitos no humanos en los analisis metabolomicos. Queremos ver si esos metabolitos se corresponden con alguna bacteria en concreto.
+
+------------------------------------------------------------------------
+
+# To do
+
+-   [ ] Leer la tesis de Vizcaino
+
+-   [ ] Datos pacientes
+
+    -   [ ] Limpiar datos
+
+    -   [ ] Plotear datos
+
+-   [ ] Microbiota
+
+    -   [ ] Batch effect
+
+    -   [ ] cargar TSE
+
+    -   [ ] abundancias relativas entre enfermedades
+
+-   [ ] Metabolomica
+
+    -   [ ] Ver datos crudos y normalizados
+
+------------------------------------------------------------------------
+
+# To read
+
+### Analisis
+
+-   [x] <https://pubmed.ncbi.nlm.nih.gov/32610095/>
+
+### (metagenomic OR microbiota) AND (metabolomic)
+
+-   [ ] <https://pubmed.ncbi.nlm.nih.gov/36550785/>
+
+-   [ ] <https://pubmed.ncbi.nlm.nih.gov/34552265/> (review)
+
+------------------------------------------------------------------------
+
+# Meetings
+
+## 2024-10-22 First meeting
+
+-   Starting point
+
+    -   What samples do we have?
+
+    -   Examine the data
+
+-   Preprocess and data cleaning
+
+    -   Clean the data
+
+    -   Remove or impute NA values
+
+    -   Look if there was batch effect
+
+-   Microbiota analysis
+
+    -   Taxa abundance of all taxa
+
+    -   Alpha diversity
+
+    -   beta diversity
+
+    -   Select most important species with RF
+
+    -   Pathway analysis with HUMAn2 , PICRUSt2, Tax4Fun
+
+        -   comparative
+
+        -   GSEA
+
+-   Metabolomic analysis
+
+    -   Select most important metabolites with RF
+    -   Pathway enrichment
+
+-   Correlations
+
+    -   Taxa vs clinical data
+
+    -   Pathways vs clinical data
+
+    -   Metabolites vs clinical data
+
+    -   metabolites vs Taxa
+
+-   Predictive model
+
+    -   Choose the output variable
+
+    -   Choose most important metagenomic and metabolomic
+
+## 2024-
+
+### Lectura OTUS
+
+Lo hice en varias tandas porque me daba error al abrir los analisis en IonReporter. Los he cargado en R sin problemas
+
+![](images/Captura%20de%20pantalla%202024-11-11%20a%20las%2014.03.14.png)
+
+![](images/Captura%20de%20pantalla%202024-11-11%20a%20las%2014.02.33.png)
+
+### Covariables
+
+Quito las variables:
+
+covs \<- covs %\>% dplyr::select(-"AMSbiopharma request", -"ID ESTUDO", - "Nº HISTOLÓGICO", - "DATA", -"DATA NASCIMENTO")
+
+Parece que hay discrepancia en las muestras de las lecturas y de las covariables. Cambié "-*" por "*\_" porque no tenian la misma nomenclatura. Aun así vemos las siguientes muestras que no se corresponden.
+
+![](images/Captura%20de%20pantalla%202024-11-11%20a%20las%2014.06.11.png)
+
+He cambiado estas muestras pero me faltan por localizar
+
+![](images/Captura%20de%20pantalla%202024-11-11%20a%20las%2014.31.05.png){width="455"}
+
+![](images/Captura%20de%20pantalla%202024-11-11%20a%20las%2014.31.39.png)

@@ -1,0 +1,133 @@
+---
+title: "Lectura conteos"
+author: "Fernando Lucas Ruiz (fernando.lucas@um.es)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    highlight: kate
+    number_sections: true
+    theme: spacelab
+    toc: true
+    toc_float: true
+    code_folding: "hide"
+  pdf_document:
+    toc: true
+subtitle: Cirugía digestiva, endocrina y trasplante de órganos abdominales (IMIB)
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, warning = F, message = F)
+```
+
+```{r, message=FALSE}
+source("Librerias.R")
+```
+
+# Conteos IonReporter
+
+```{r}
+# Directorio donde están los archivos Excel
+directorio <- "../exportsR//"
+
+# Listar todos los archivos que coinciden con el patrón
+archivos <- list.files(path = directorio, pattern = ".*\\_consensus.txt$", full.names = TRUE)
+
+todas_muestras <- data.frame()
+
+# Leer y asignar cada archivo a una variable con el nombre correspondiente
+for (archivo in archivos) {
+  nombre_base <- sub("exports//", "", basename(archivo))
+  nombre_base <- sub("\\_consensus.txt$", "", nombre_base)
+  nombre_base <- sub("^.*?_", "", nombre_base)
+  nombre_base <- sub("_[^_]*$", "", nombre_base)
+  
+  # Leer el archivo Excel
+  datos <- read.delim(archivo)
+  
+  # seleccionar las columnas 
+  datos <- dplyr::select(datos, c("Phylum", "Class", "Order", "Family", "Genus", "Species", "Count"))
+  
+  # Poner nombre de muestra
+  datos <- mutate(datos, codigo = nombre_base)
+  
+  # ir añadiendo a un data.frame
+  todas_muestras <- rbind(todas_muestras, datos)
+  
+}
+
+# Aplicar trimws a todas las columnas de tipo carácter para quitar el espacio del principio
+todas_muestras[] <- lapply(todas_muestras, function(x) if(is.character(x)) trimws(x, which = "left") else x)
+```
+
+```{r}
+# Cambiar por ""
+todas_muestras[] <- lapply(todas_muestras, function(x) if(is.character(x)) gsub("\\(family level ID only\\)", "", x) else x)
+
+todas_muestras[] <- lapply(todas_muestras, function(x) if(is.character(x)) gsub("\\(slash calls\\)", "", x) else x)
+
+todas_muestras[] <- lapply(todas_muestras, function(x) if(is.character(x)) gsub("\\(genus level ID only\\)", "", x) else x)
+
+```
+
+# Covariables
+
+```{r}
+covs <- read_excel("../CD anexo tesis.xlsx")
+
+covs <- covs %>%
+    dplyr::select(-"AMSbiopharma request",
+                  -"ID ESTUDO",
+                  - "Nº HISTOLÓGICO",
+                  - "DATA",
+                  -"DATA NASCIMENTO")
+```
+
+```{r}
+covs$`Sample description` <- gsub("-", "_", covs$`Sample description`)
+todas_muestras$codigo <- gsub("-", "_", todas_muestras$codigo)
+
+cat("Presentes en covs \n")
+setdiff(covs$`Sample description`, todas_muestras$codigo)
+cat("\n Presentes en lecturas \n")
+setdiff(todas_muestras$codigo, covs$`Sample description`)
+
+```
+
+```{r}
+todas_muestras$codigo <- gsub("H13_11861", "H13_11681", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H16_5568", "H16_05568", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H15_3895", "H15_03895", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H15_2920", "H15_02920", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H13_7639", "H13_07639", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H15_8368", "H15_08368", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H13_2584", "H13_02584", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H13_15361", "H12_15361", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H10_8850", "H00_08850", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H19_600", "H19_16005", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H19_5699", "H19_05699", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H18_8233", "H18_18233", todas_muestras$codigo)
+todas_muestras$codigo <- gsub("H18_2561", "H18_12561", todas_muestras$codigo)
+
+cat("Presentes en covs \n")
+length(covs$`Sample description`)
+setdiff(covs$`Sample description`, todas_muestras$codigo)
+cat("\n Presentes en lecturas \n")
+length(unique(todas_muestras$codigo))
+setdiff(todas_muestras$codigo, covs$`Sample description`)
+```
+
+```{r}
+covs <- covs %>%
+    dplyr::filter(!`Sample description` %in% setdiff(covs$`Sample description`, todas_muestras$codigo))
+```
+
+```{r, fig.width=20, fig.height=10}
+vis_dat(covs)
+```
+
+
+
+
+
+
