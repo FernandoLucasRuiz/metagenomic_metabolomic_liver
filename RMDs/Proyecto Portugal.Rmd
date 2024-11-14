@@ -142,3 +142,91 @@ He cambiado estas muestras pero me faltan por localizar
 ![](images/Captura%20de%20pantalla%202024-11-11%20a%20las%2014.31.05.png){width="455"}
 
 ![](images/Captura%20de%20pantalla%202024-11-11%20a%20las%2014.31.39.png)
+
+Cuando visualizo las variables vemos que casi todas son numéricas pero hay bastantes que son NAs y pertenecen casi todas al grupo CBP.
+
+![](images/clipboard-3203416830.png)
+
+Empezamos a ver las variables character a ver qué son:
+
+![](images/Captura de pantalla 2024-11-13 a las 10.29.50.png)
+
+Pathology group y Diagnóstico Principal son la misma columna así que borro la segunda
+
+Paso Pathology group a factor. Tambien Género. y la de DADOR....
+
+Veo que todas las muestras Healthy son los organos donantes y los demás son los organos dañados. Quito esa variable porque no me aporta nada
+
+Observações la quito porque está vacia de parámetros y parecen cosas que no aportan nada.
+
+Leucocitos totales y linfocitos son numericas. Cuando hago las gráficas de esas dos variables veo que los sanos tienen 999 todos lo que significa que no se recogieron esas muestras en los sanos. Desecho esas variables.
+
+![](images/clipboard-2927429224.png)
+
+Veo que algunos de los factores tienen NAs. Son las muestras: H13_21217, H13_11681 y H16_05568 en Género.
+
+![](images/clipboard-1485403122.png)
+
+Nos interesa?
+
+![](images/Captura de pantalla 2024-11-13 a las 11.00.38.png)
+
+Si nos fijamos en detalle, la muestra última H16_05568 no se recogió ninguna variable clinica pero sí de metabolitos y metagenómica.
+
+Voy a cambiar todos los 999 por NAs
+
+![](images/clipboard-3406888561.png)
+
+Paso a mirar las numéricas. Empiezo mirando las que tienen NAs.
+
+-   Todas las CBP no tienen los datos de Area del porta utilizada. Es una variable técnica que creo que no aporta nada, así que la quito (A1 Final mm2, A2 Inicial mm2, Média A1+A2)
+
+-   SIDEROSIS (Presencia de gránulos de pigmento hemosidérico en el citoplasma de hepatocitos o en células de Kupffer) y SIDEROSIS TOPOGRAFIA (Localización/topografía de la siderosis en el tejido hepático) tienen muchos NAs. Lo quito.
+
+-   Sirolimus, Sirolimus Conc min (), Everolimus, Everolimus Conc. Mínima no tienen valores en ninguna de las muestras. Las quito las 4
+
+-   Lo mismo con Tacrolimus Conc. Sangre, Ciclosporina Conc. Sangre. Las quito
+
+-   Las variables serológicas y microbiológicas tienen muchos NAs. -anti-VHC, -RNA-VHC, -anti-VHBs, -anti-VHBc, -VHBsAg, -VHBeAg, -anti-VHBe, -DNA VHB, -anti-VHA)
+
+-   Quito tambien las variables bioquímicas y clinicas (ttos y enfermedades) INR:Motivo do transplante
+
+![](images/clipboard-3139212452.png)
+
+Ahora voy a pasar todas las numericas que son factores. Para ello miro en la tesis.
+
+![](images/clipboard-2017619714.png)
+
+Vale, ahora vamos a ver los datos. Empezamos viendo cuantas muestras hay de cada tipo de patología. Parece que está muy repartido pero parecen
+
+![](images/clipboard-25706922.png)
+
+Vamos con las variables categóricas. Parece que es más o menos normal aunque hay algunas bastante desbalanceadas
+
+![](images/clipboard-3233013022.png)
+
+![](images/clipboard-1011763420.png)
+
+![](images/clipboard-758708151.png)
+
+![](images/clipboard-4029625321.png)
+
+Vamos con las numericas:
+
+-   "Nº_EP_SEM_DUCTO", "Nº_EP_SEM_ARTERIOLA", "Nº_EP_SEM_ARTERIOLA_E_SEM_DUCTO", "EOSINÓFILOS" quitarlos
+
+![](images/clipboard-901154037.png)
+
+### Metabolitos
+
+![](images/clipboard-4198462999.png)
+
+![](images/clipboard-2295009466.png)
+
+![](images/clipboard-1159495100.png)
+
+![](images/clipboard-2558085870.png)
+
+![](images/clipboard-2533658400.png)
+
+![](images/clipboard-3464416739.png)
