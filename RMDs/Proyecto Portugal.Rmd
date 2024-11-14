@@ -149,7 +149,7 @@ Cuando visualizo las variables vemos que casi todas son numéricas pero hay bast
 
 Empezamos a ver las variables character a ver qué son:
 
-![](images/Captura de pantalla 2024-11-13 a las 10.29.50.png)
+![](images/Captura%20de%20pantalla%202024-11-13%20a%20las%2010.29.50.png)
 
 Pathology group y Diagnóstico Principal son la misma columna así que borro la segunda
 
@@ -169,7 +169,7 @@ Veo que algunos de los factores tienen NAs. Son las muestras: H13_21217, H13_116
 
 Nos interesa?
 
-![](images/Captura de pantalla 2024-11-13 a las 11.00.38.png)
+![](images/Captura%20de%20pantalla%202024-11-13%20a%20las%2011.00.38.png)
 
 Si nos fijamos en detalle, la muestra última H16_05568 no se recogió ninguna variable clinica pero sí de metabolitos y metagenómica.
 
